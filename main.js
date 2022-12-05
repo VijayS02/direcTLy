@@ -308,6 +308,10 @@ function renderRoom() {
   roomCode.innerHTML = "Room ID: " + roomId
   roomCode.setAttribute('id', 'roomTitle')
   body.appendChild(roomCode)
+  const helpMsg = document.createElement('p')
+  helpMsg.innerHTML = "(share this ID with your teammates)"
+  helpMsg.style.color = "white"
+  body.appendChild(helpMsg)
   const usersDiv = document.createElement('div')
   body.appendChild(usersDiv)
   usersDiv.setAttribute('id', 'userImages')
