@@ -13,6 +13,8 @@ let userId = null;
 let roomId = null;
 let activeCons = 0;
 let isHost = false
+// Has the webcam and streams been initialized
+let webcamInitialized = 0;
 
 
 // Firebase Constants
@@ -60,6 +62,9 @@ const roomInput = document.getElementById('roomId');
 const generateRoom = document.getElementById('generateRoom');
 
 let setupWebcam = async () => {
+  if(webcamInitialized){
+    return;
+  }
   // Gets webcam permission and adds stream to all connections
 
 
@@ -93,6 +98,7 @@ let setupWebcam = async () => {
     let remVid = document.getElementById(str);
     remVid.srcObject = remoteStreams[i];
   }
+  webcamInitialized++;
 };
 
 
@@ -175,43 +181,55 @@ async function CreateRoom() {
 
 async function JoinRoom(roomID) {
   // Join a room with a given room id
+  document.getElementById("roomError").innerHTML = "";
   await setupWebcam();
-
+  
   // Set the session's room id
-  roomId = roomID;
+
 
   // Get the room information from firestore
   const room = await firestore.collection('rooms').doc(roomID);
   let roomRef = await room.get();
   // userid is 0,1,2,3... depending on when you joined.
-  userId = roomRef.data()['users'];
+  console.log(roomRef.id);
+  if(!roomRef.exists){
 
-  for (let i = 0; i < userId; i++) {
-    let connId = await CreateConn(pcs[i]);
-    // User's ids are "<UserIndex>:<RoomID>" 
-    await CreateConnEntry(userId.toString() + ":" + roomID, i.toString() + ":" + roomID, connId);
-  }
+    console.log("ERROR");
+    document.getElementById("roomError").innerHTML = "Invalid room code.";
+    return;
+  }else{
+    roomId = roomID;
+    userId = roomRef.data()['users'];
+    console.log(userId);
+    userId = userId['users'];
 
-  document.getElementById("numConnections").innerHTML = userId;
-  activeCons = userId;
-  console.log("Active", activeCons);
+    for (let i = 0; i < userId; i++) {
+      let connId = await CreateConn(pcs[i]);
+      // User's ids are "<UserIndex>:<RoomID>" 
+      await CreateConnEntry(userId.toString() + ":" + roomID, i.toString() + ":" + roomID, connId);
+    }
+
+    document.getElementById("numConnections").innerHTML = userId;
+    activeCons = userId;
+    console.log("Active", activeCons);
 
 
-  room.update({
-    // Increment the users
-    users: userId + 1
-  })
-
-  // Listen for changes on the connections table so as to be able to join when someone 
-  // enters the room.
-  firestore.collection('connections').onSnapshot((snapshot) => {
-    snapshot.docChanges().forEach((changes) => {
-      listenForConnections(changes);
+    room.update({
+      // Increment the users
+      users: userId + 1
     })
-  })
 
-  roomButton.disabled = true;
-  generateRoom.disabled = true;
+    // Listen for changes on the connections table so as to be able to join when someone 
+    // enters the room.
+    firestore.collection('connections').onSnapshot((snapshot) => {
+      snapshot.docChanges().forEach((changes) => {
+        listenForConnections(changes);
+      })
+    })
+
+    roomButton.disabled = true;
+    generateRoom.disabled = true;
+  }
 }
 
 async function CreateConnEntry(user1, user2, code) {
@@ -326,15 +344,17 @@ function renderRoom() {
 }
 
 roomButton.onclick = async () => {
-  const roomId = roomInput.value;
-  await JoinRoom(roomId);
-  renderRoom()
-  const lobbyRoomDoc = await firestore.collection('rooms').doc(roomId)
-  const lobbyRoom = await lobbyRoomDoc.get()
-  const numUsers = await lobbyRoom.data()['users']
-  console.log(numUsers)
-  for (let i = 0; i < numUsers; i++) {
-    addUserImg()
+  const roomValue = roomInput.value;
+  await JoinRoom(roomValue);
+  if(roomId){
+    renderRoom()
+    const lobbyRoomDoc = await firestore.collection('rooms').doc(roomId)
+    const lobbyRoom = await lobbyRoomDoc.get()
+    const numUsers = await lobbyRoom.data()['users']
+    console.log(numUsers)
+    for (let i = 0; i < numUsers; i++) {
+      addUserImg()
+    }
   }
   // const rooms = firestore.collection('rooms');
 };

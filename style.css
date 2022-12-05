@@ -164,6 +164,12 @@ video {
   display: inline-block;
 }
 
+#roomError{
+  font-size: 70%;
+  color:rgba(189, 63, 63, 0.853);
+  padding: 10px;
+}
+
 .tooltip .tooltiptext {
   visibility: hidden;
   width: 140px;
