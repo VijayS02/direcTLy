@@ -14,12 +14,6 @@ let roomId = null;
 let activeCons = 0;
 
 
-if (!firebase.apps.length) {
-  firebase.initializeApp(firebaseConfig);
-}
-// Firebase Globals
-const firestore = firebase.firestore();
-
 // Firebase Constants
 const servers = {
   iceServers: [
@@ -29,7 +23,6 @@ const servers = {
   ],
   iceCandidatePoolSize: 10,
 };
-// 
 const firebaseConfig = {
   apiKey: "AIzaSyCIq8PGJA0ywv8iWjRWmMETpF3JuPNJ_zU",
   authDomain: "liquidxdav.firebaseapp.com",
@@ -39,6 +32,10 @@ const firebaseConfig = {
   appId: "1:25180788907:web:3c37dd480e09ce30843fee",
   measurementId: "G-KC525G6ZQJ"
 };
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
+const firestore = firebase.firestore();
 
 
 
