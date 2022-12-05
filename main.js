@@ -12,6 +12,7 @@ let userId = null;
 // RoomID for the given session
 let roomId = null;
 let activeCons = 0;
+let isHost = false
 
 
 // Firebase Constants
@@ -100,9 +101,9 @@ async function CreateConn(con) {
   // Mostly code for creating a new webRTC connection
 
   // Reference Firestore collections for signaling
-  const callDoc = firestore.collection('calls').doc();
-  const offerCandidates = callDoc.collection('offerCandidates');
-  const answerCandidates = callDoc.collection('answerCandidates');
+  const callDoc = await firestore.collection('calls').doc();
+  const offerCandidates = await callDoc.collection('offerCandidates');
+  const answerCandidates = await callDoc.collection('answerCandidates');
 
   // Get candidates for caller, save to db
   con.onicecandidate = (event) => {
@@ -149,6 +150,7 @@ async function CreateConn(con) {
 async function CreateRoom() {
   // Creates a room in the firebase DB and sets up snapshot listener
   await setupWebcam();
+  isHost = true;
   userId = 1;
   const newRoom = await firestore.collection('rooms').add({
     users: 1
@@ -226,9 +228,9 @@ async function CreateConnEntry(user1, user2, code) {
 
 async function JoinConn(conn, code_id) {
   // Called when a user joins the room
-  const callDoc = firestore.collection('calls').doc(code_id);
-  const answerCandidates = callDoc.collection('answerCandidates');
-  const offerCandidates = callDoc.collection('offerCandidates');
+  const callDoc = await firestore.collection('calls').doc(code_id);
+  const answerCandidates = await callDoc.collection('answerCandidates');
+  const offerCandidates = await callDoc.collection('offerCandidates');
 
   conn.onicecandidate = (event) => {
     event.candidate && answerCandidates.add(event.candidate.toJSON());
@@ -270,7 +272,17 @@ function addUserImg() {
 
 async function listenForConnections(change) {
   // Check if new event is relevant to room and user
+  // console.log(8248)
   if (change.type == "added") {
+    // console.log(69)
+    const lobbyRoomDoc = await firestore.collection('rooms').doc(roomId)
+    const lobbyRoom = await lobbyRoomDoc.get()
+    const numUsers = await lobbyRoom.data()['users']
+    console.log(numUsers)
+    if (isHost && numUsers === 2) {
+      addUserImg()
+      isHost = false
+    }
     let new_doc = change.doc.data();
     if (new_doc["user2"] == userId.toString() + ":" + roomId) {
       console.log("New connection required!", new_doc);
@@ -281,6 +293,7 @@ async function listenForConnections(change) {
       addUserImg()
       console.log("Active", activeCons);
       document.getElementById("numConnections").innerHTML = activeCons;
+
     }
   }
 
