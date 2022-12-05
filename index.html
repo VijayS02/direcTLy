@@ -8,59 +8,38 @@
     <title>WebRTC Demo</title>
   </head>
   <body>
-    <h2>1. Start your Webcam</h2>
     <div class="videos">
       <span>
-        <h3>Local Stream</h3>
-        <video id="webcamVideo" autoplay playsinline></video>
+        <audio id="webcamAudio" autoplay playsinline></audio>
       </span>
       <span>
-        <h3>Remote Stream</h3>
-        <video id="remoteVideo1" autoplay playsinline></video>
+        <audio id="remoteAudio1" autoplay playsinline></audio>
       </span>
       <span>
-        <h3>Remote Stream</h3>
-        <video id="remoteVideo2" autoplay playsinline></video>
+        <audio id="remoteAudio2" autoplay playsinline></audio>
       </span>
       <span>
-        <h3>Remote Stream</h3>
-        <video id="remoteVideo3" autoplay playsinline></video>
+        <audio id="remoteAudio3" autoplay playsinline></audio>
       </span>
       <span>
-        <h3>Remote Stream</h3>
-        <video id="remoteVideo4" autoplay playsinline></video>
+        <audio id="remoteAudio4" autoplay playsinline></audio>
       </span>
       <span>
-        <h3>Remote Stream</h3>
-        <video id="remoteVideo5" autoplay playsinline></video>
+        <audio id="remoteAudio5" autoplay playsinline></audio>
       </span>
 
     </div>
 
-    <button id="webcamButton">Start webcam</button>
-    <h2>2. Create a new Call</h2>
-    
-    <button id="callButton" disabled>Create Call (offer)</button>
-    <h2>ALLAH. Join a room</h2>
+    <div id="connections">
+      Connections: <span id="numConnections">0</span>
+    </div>
+    <h2>Join a room</h2>
     <input id="roomId"/>
     <button id="roomButton">Join Room</button>
 
-    <h3>Generate a room</h3>
+    <h2>Generate a room</h2>
     <p>Room ID: <span id="roomText"></span></p>
     <button id="generateRoom">Create a room</button>
-    
-
-    <h2>3. Join a Call</h2>
-    <p>Answer the call from a different browser window or device</p>
-    
-    <input id="callInput" />
-    <input id="callInput2" />
-    <button id="answerButton" disabled>Answer</button>
-    <button id="answerButton2" disabled>Answer2s</button>
-
-    <h2>4. Hangup</h2>
-
-    <button id="hangupButton" disabled>Hangup</button>
 
     <script type="module" src="/main.js"></script>
 

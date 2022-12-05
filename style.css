@@ -20,3 +20,8 @@ video {
   align-items: center;
   justify-content: center;
 }
+
+#connections{
+  overflow: none;
+  height: 0px;
+}

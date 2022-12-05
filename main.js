@@ -8,6 +8,8 @@ const maxConns = 5;
 let userId = null;
 let roomId = null;
 
+let activeCons = 0;
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyCIq8PGJA0ywv8iWjRWmMETpF3JuPNJ_zU",
@@ -44,21 +46,17 @@ let localStream = null;
 let remoteStreams = [];
 
 // HTML elements
-const webcamButton = document.getElementById('webcamButton');
 const webcamVideo = document.getElementById('webcamVideo');
 const callButton = document.getElementById('callButton');
-const callInput = document.getElementById('callInput');
-const callInput2 = document.getElementById('callInput2');
 
 const roomButton = document.getElementById('roomButton');
 const roomInput = document.getElementById('roomId');
 
-const hangupButton = document.getElementById('hangupButton');
 const generateRoom = document.getElementById('generateRoom');
 // 1. Setup media sources
 
-webcamButton.onclick = async () => {
-  localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+let setupWebcam = async () => {
+  localStream = await navigator.mediaDevices.getUserMedia({ video: false, audio: true });
   
 
   // Push tracks from local stream to peer connection
@@ -83,7 +81,7 @@ webcamButton.onclick = async () => {
 
   webcamVideo.srcObject = localStream;
   for(let i =0;i<maxConns;i++){
-    let str = "remoteVideo"+ (i+1).toString();
+    let str = "remoteAudio"+ (i+1).toString();
     console.log(str);
     let remVid = document.getElementById(str);
     remVid.srcObject = remoteStreams[i];
@@ -97,21 +95,6 @@ webcamButton.onclick = async () => {
   webcamButton.disabled = true;
 };
 
-// 2. Create an offer
-callButton.onclick = async () => {
-  let res = await CreateConn(pc);
-  console.log("ID IS: ",res);
-};
-
-// 3. Answer the call with the unique ID
-answerButton.onclick = async () => {
-  JoinConn(pcs[0], callInput.value);
-};
-
-
-answerButton2.onclick = async () => {
-  JoinConn(pcs[1], callInput2.value);
-};
 
 async function CreateConn(con){
   // Reference Firestore collections for signaling
@@ -162,12 +145,14 @@ async function CreateConn(con){
 
 
 async function CreateRoom(){
+  setupWebcam();
   userId = 0;
   const newRoom = await firestore.collection('rooms').add({
     users: 1
   });
   roomId = newRoom.id;
   console.log(roomId);
+  document.getElementById("roomText").innerHTML = roomId;
 
 
   firestore.collection('connections').onSnapshot((snapshot)=>{
@@ -176,11 +161,14 @@ async function CreateRoom(){
     })
   })
 
+  roomButton.disabled = true;
+  generateRoom.disabled = true;
   return roomId;
 }
 
 
 async function JoinRoom(roomID){
+  setupWebcam();
   roomId = roomID;
   const room = await firestore.collection('rooms').doc(roomID);
   let roomRef = await room.get();
@@ -200,6 +188,9 @@ async function JoinRoom(roomID){
       listenForConnections(changes);
     })
   })
+
+  roomButton.disabled = true;
+  generateRoom.disabled = true;
 }
 
 async function CreateConnEntry(user1, user2, code){
@@ -256,6 +247,7 @@ function listenForConnections(change){
       console.log("New connection required!", new_doc);
       let ind = parseInt(new_doc["user1"].split(":")[0]);
       JoinConn(pcs[ind], new_doc["code"]);
+      activeCons++;
     }
   }
   
