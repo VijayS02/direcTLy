@@ -13,6 +13,10 @@ let userId = null;
 let roomId = null;
 let activeCons = 0;
 
+
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
 // Firebase Globals
 const firestore = firebase.firestore();
 
@@ -36,9 +40,6 @@ const firebaseConfig = {
   measurementId: "G-KC525G6ZQJ"
 };
 
-if (!firebase.apps.length) {
-  firebase.initializeApp(firebaseConfig);
-}
 
 
 // Global State
