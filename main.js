@@ -79,7 +79,7 @@ let setupWebcam = async () => {
     };
   }
 
-  webcamVideo.srcObject = localStream;
+  // webcamVideo.srcObject = localStream;
   for(let i =0;i<maxConns;i++){
     let str = "remoteAudio"+ (i+1).toString();
     console.log(str);
