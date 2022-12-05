@@ -266,7 +266,7 @@ async function JoinConn(conn, code_id) {
 function addUserImg() {
   const usersDiv = document.getElementById('userImages')
   const userImg = document.createElement('img')
-  userImg.src = './public/user.png'
+  userImg.src = 'https://i.postimg.cc/rF2FBYnT/user.png'
   usersDiv.appendChild(userImg)
 }
 
