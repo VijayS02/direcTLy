@@ -46,9 +46,6 @@ let localStream = null;
 let remoteStreams = [];
 
 // HTML elements
-const webcamVideo = document.getElementById('webcamVideo');
-const callButton = document.getElementById('callButton');
-
 const roomButton = document.getElementById('roomButton');
 const roomInput = document.getElementById('roomId');
 
@@ -86,13 +83,6 @@ let setupWebcam = async () => {
     let remVid = document.getElementById(str);
     remVid.srcObject = remoteStreams[i];
   }
-
-  callButton.disabled = false;
-
-  answerButton.disabled = false;
-  answerButton2.disabled = false;
-
-  webcamButton.disabled = true;
 };
 
 
@@ -248,6 +238,7 @@ function listenForConnections(change){
       let ind = parseInt(new_doc["user1"].split(":")[0]);
       JoinConn(pcs[ind], new_doc["code"]);
       activeCons++;
+      document.getElementById("numConnections").innerHTML = activeCons;
     }
   }
   
