@@ -1,48 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="main.js"></script>
-    <title>WebRTC Demo</title>
-  </head>
-  <body>
-    <div class="videos">
-      <!-- <span>
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="main.js"></script>
+  <title>WebRTC Demo</title>
+</head>
+
+<body id="root">
+  <div class="videos">
+    <!-- <span>
         <audio id="webcamAudio" autoplay playsinline></audio>
       </span> -->
-      <span>
-        <!-- Auto elements to pass streams into -->
-        <audio id="remoteAudio1" autoplay playsinline></audio>
-      </span>
-      <span>
-        <audio id="remoteAudio2" autoplay playsinline></audio>
-      </span>
-      <span>
-        <audio id="remoteAudio3" autoplay playsinline></audio>
-      </span>
-      <span>
-        <audio id="remoteAudio4" autoplay playsinline></audio>
-      </span>
-      <span>
-        <audio id="remoteAudio5" autoplay playsinline></audio>
-      </span>
+    <span>
+      <!-- Auto elements to pass streams into -->
+      <audio id="remoteAudio1" autoplay playsinline></audio>
+    </span>
+    <span>
+      <audio id="remoteAudio2" autoplay playsinline></audio>
+    </span>
+    <span>
+      <audio id="remoteAudio3" autoplay playsinline></audio>
+    </span>
+    <span>
+      <audio id="remoteAudio4" autoplay playsinline></audio>
+    </span>
+    <span>
+      <audio id="remoteAudio5" autoplay playsinline></audio>
+    </span>
 
-    </div>
+  </div>
 
+  <div id="landing">
     <div id="connections">
       Connections: <span id="numConnections">0</span>
     </div>
-    <h2>Join a room</h2>
-    <input id="roomId"/>
-    <button id="roomButton">Join Room</button>
 
-    <h2>Generate a room</h2>
-    <p>Room ID: <span id="roomText"></span></p>
-    <button id="generateRoom">Create a room</button>
+    <div id="join">
+      <h1>Join a room</h1>
+      <input id="roomId" placeholder="Enter Room ID" />
+      <button id="roomButton">Join Room</button>
+    </div>
 
-    <script type="module" src="/main.js"></script>
+    <div id="create">
+      <h1>Generate a room</h1>
+      <button id="generateRoom">Create a room</button>
+      <p id="roomIDText">Room ID: <span id="roomText"></span></p>
+    </div>
+  </div>
 
-  </body>
+  <script type="module" src="/main.js"></script>
+
+</body>
+
 </html>
