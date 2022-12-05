@@ -264,6 +264,7 @@ async function JoinConn(conn, code_id) {
 }
 
 function addUserImg() {
+  new Audio("bell.wav").play();
   const usersDiv = document.getElementById('userImages')
   const userImg = document.createElement('img')
   userImg.src = 'https://i.postimg.cc/rF2FBYnT/user.png'
