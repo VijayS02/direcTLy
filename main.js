@@ -305,7 +305,7 @@ function renderRoom() {
   landing.remove()
   const body = document.getElementById("root")
   const roomCode = document.createElement('p')
-  roomCode.innerHTML = "Room ID: " + roomId
+  roomCode.innerHTML = "Room ID: <div class='tooltip'><code id='roomCodeHolder'>" + roomId + "<span class=\"tooltiptext\" id=\"copyTip\">Copy</span></code></div>"
   roomCode.setAttribute('id', 'roomTitle')
   body.appendChild(roomCode)
   const helpMsg = document.createElement('p')
@@ -315,6 +315,11 @@ function renderRoom() {
   const usersDiv = document.createElement('div')
   body.appendChild(usersDiv)
   usersDiv.setAttribute('id', 'userImages')
+
+  document.getElementById('roomCodeHolder').onclick = ()=>{
+    navigator.clipboard.writeText(roomId);
+    document.getElementById('copyTip').innerHTML = "Copied!";
+  }
 
 
 }

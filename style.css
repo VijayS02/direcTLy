@@ -9,6 +9,7 @@ body {
   margin: 0;
   height: 100vh;
   width: 100vw;
+  overflow: hidden;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' style='margin: auto; background: rgb(7, 6, 22); display: block; z-index: 1; position: relative; shape-rendering: auto; animation-play-state: running; animation-delay: 0s;' width='1464' height='808' preserveAspectRatio='xMidYMid' viewBox='0 0 1464 808'%3E%3Cg transform='translate(732,404) scale(1,1) translate(-732,-404)' style='animation-play-state: running; animation-delay: 0s;'%3E%3Cdefs style='animation-play-state: running; animation-delay: 0s;'%3E%3Cpath id='path-gj5om7ymvru-1' d='M-35 -35L35 -35L35 35L-35 35Z' fill='none' stroke='inherit' stroke-width='4.333333333333334' transform='scale(0.3)' style='animation-play-state: running; animation-delay: 0s;'%3E%3C/path%3E%3Cpath id='path-gj5om7ymvru-2' d='M0 -37A37 37 0 0 1 0 37A37 37 0 0 1 0 -37' fill='none' stroke='inherit' stroke-width='4.333333333333334' transform='scale(0.3)' style='animation-play-state: running; animation-delay: 0s;'%3E%3C/path%3E%3Cpath id='path-gj5om7ymvru-3' d='M0 -34.641L40 34.641L-40 34.641Z' fill='none' stroke='inherit' stroke-width='4.333333333333334' transform='scale(0.3)' style='animation-play-state: running; animation-delay: 0s;'%3E%3C/path%3E%3C/defs%3E%3Cpath id='path0' d='M 118.2253963182498 116.69652651444085%0Ac 0 56.74026915646633 -13.883257346794952 16.29773688536799 -30.180994232162945 16.29773688536799%0AS 57.86340785392392 173.43679567090717 57.86340785392392 116.69652651444085%0As 13.883257346794952 -16.29773688536799 30.180994232162945 -16.29773688536799%0AS 118.2253963182498 59.956257357974515 118.2253963182498 116.69652651444085%0Az' fill='none' stroke='none' style='animation-play-state: running; animation-delay: 0s;'%3E%3C/path%3E%3Cuse xlink:href='%23path-gj5om7ymvru-1' x='0' y='0' stroke='%23ddeeff' style='animation-play-state: running; animation-delay: 0s;'%3E%3CanimateMotion begin='-0.7178008440242523s' dur='10s' keyPoints='0;1' keyTimes='0;1' repeatCount='indefinite' calcMode='linear' style='animation-play-state: running; animation-delay: 0s;'%3E%3Cmpath xlink:href='%23path0' style='animation-play-state: running; animation-delay: 0s;'%3E%3C/mpath%3E%3C/animateMotion%3E%3C/use%3E%3Cpath id='path1' d='M 151.91270974049405 302.52852137290876%0Ac 0 54.17687923771574 -13.256044919866614 15.56144403636516 -28.817488956231774 15.56144403636516%0AS 94.2777318280305 356.7054006106245 94.2777318280305 302.52852137290876%0As 13.256044919866614 -15.56144403636516 28.817488956231774 -15.56144403636516%0AS 151.91270974049405 248.351642135193 151.91270974049405 302.52852137290876%0Az' fill='none' stroke='none' style='animation-play-state: running; animation-delay: 0s;'%3E%3C/path%3E%3Cuse xlink:href='%23path-gj5om7ymvru-3' x='0' y='0' stroke='%23ddeeff' style='animation-play-state: running; animation-delay: 0s;'%3E%3CanimateMotion begin='-1.1561989881655843s' dur='10s' keyPoints='0;1' keyTimes='0;1' repeatCount='indefinite' calcMode='linear' style='animation-play-state: running; animation-delay: 0s;'%3E%3Cmpath xlink:href='%23path1' style='animation-play-state: running; animation-delay: 0s;'%3E%3C/mpath%3E%3C/animateMotion%3E%3C/use%3E%3Cpath id='path2' d='M 246.03234126189236 272.1830061999497%0Ac 0 25.701768641920836 -6.288730625150842 7.382422907785773 -13.671153532936614 7.382422907785773%0AS 218.69003419601913 297.8847748418706 218.69003419601913 272.1830061999497%0As 6.288730625150842 -7.382422907785773 13.671153532936614 -7.382422907785773%0AS 246.03234126189236 246.48123755802888 246.03234126189236 272.1830061999497%0Az' fill='none' stroke='none' style='animation-play-state: running; animation-delay: 0s;'%3E%3C/path%3E%3Cuse xlink:href='%23path-gj5om7ymvru-3' x='0' y='0' stroke='%23ddeeff' style='animation-play-state: running; animation-delay: 0s;'%3E%3CanimateMotion begin='-5.2300739922496s' dur='10s' keyPoints='0;1' keyTimes='0;1' repeatCount='indefinite' calcMode='linear' style='animation-play-state: running; animation-delay: 0s;'%3E%3Cmpath xlink:href='%23path2' style='animation-play-state: running; animation-delay: 0s;'%3E%3C/mpath%3E%3C/animateMotion%3E%3C/use%3E%3Cpath id='path3' d='M 340.27532961720584 566.1916354327931%0Ac 0 31.133378177451316 -7.617741468950853 8.942566072246654 -16.560307541197506 8.942566072246654%0AS 307.1547145348108 597.3250136102444 307.1547145348108 566.1916354327931%0As 7.617741468950853 -8.942566072246654 16.560307541197506 -8.942566072246654%0AS 340.27532961720584 535.0582572553418 340.27532961720584 566.1916354327931%0Az' fill='none' stroke='none' style='animation-play-state: running; animation-delay: 0s;'%3E%3C/path%3E%3Cuse xlink:href='%23path-gj5om7ymvru-3' x='0' y='0' stroke='%23bbddff' style='animation-play-state: running; animation-delay: 0s;'%3E%3CanimateMotion begin='-2.342172211916005s' dur='10s' keyPoints='0;1' keyTimes='0;1' repeatCount='indefinite' calcMode='linear' style='animation-play-state: running; animation-delay: 0s;'%3E%3Cmpath xlink:href='%23path3' style='animation-play-state: running; animation-delay: 0s;'%3E%3C/mpath%3E%3C/animateMotion%3E%3C/use%3E%3Cpath id='path4' d='M 388.3273196350458 726.0278605855184%0Ac 0 25.176309927402766 -6.160160939683655 7.231493277019944 -13.3916542167036 7.231493277019944%0AS 361.54401120163857 751.2041705129211 361.54401120163857 726.0278605855184%0As 6.160160939683655 -7.231493277019944 13.3916542167036 -7.231493277019944%0AS 388.3273196350458 700.8515506581157 388.3273196350458 726.0278605855184%0Az' fill='none' stroke='none' style='animation-play-state: running; animation-delay: 0s;'%3E%3C/path%3E%3Cuse xlink:href='%23path-gj5om7ymvru-3' x='0' y='0' stroke='%23aabbcc' style='animation-play-state: running; animation-delay: 0s;'%3E%3CanimateMotion begin='-8.140059624285774s' dur='10s' keyPoints='1;0' keyTimes='0;1' repeatCount='indefinite' calcMode='linear' style='animation-play-state: running; animation-delay: 0s;'%3E%3Cmpath xlink:href='%23path4' style='animation-play-state: running; animation-delay: 0s;'%3E%3C/mpath%3E%3C/animateMotion%3E%3C/use%3E%3Cpath id='path5' d='M 493.9848444137027 746.2527807932273%0Ac 0 32.598154559573736 -7.976144200746765 9.363299713920116 -17.33944391466688 9.363299713920116%0AS 459.3059565843689 778.850935352801 459.3059565843689 746.2527807932273%0As 7.976144200746765 -9.363299713920116 17.33944391466688 -9.363299713920116%0AS 493.9848444137027 713.6546262336536 493.9848444137027 746.2527807932273%0Az' fill='none' stroke='none' style='animation-play-state: running; animation-delay: 0s;'%3E%3C/path%3E%3Cuse xlink:href='%23path-gj5om7ymvru-1' x='0' y='0' stroke='%23aabbcc' style='animation-play-state: running; animation-delay: 0s;'%3E%3CanimateMotion begin='-1.2849298423182742s' dur='10s' keyPoints='0;1' keyTimes='0;1' repeatCount='indefinite' calcMode='linear' style='animation-play-state: running; animation-delay: 0s;'%3E%3Cmpath xlink:href='%23path5' style='animation-play-state: running; animation-delay: 0s;'%3E%3C/mpath%3E%3C/animateMotion%3E%3C/use%3E%3Cpath id='path6' d='M 553.8737289002147 751.6887174253951%0Ac 0 54.85293972817276 -13.421463976042268 15.755631624049622 -29.177095600091892 15.755631624049622%0AS 495.5195377000309 806.5416571535678 495.5195377000309 751.6887174253951%0As 13.421463976042268 -15.755631624049622 29.177095600091892 -15.755631624049622%0AS 553.8737289002147 696.8357776972224 553.8737289002147 751.6887174253951%0Az' fill='none' stroke='none' style='animation-play-state: running; animation-delay: 0s;'%3E%3C/path%3E%3Cuse xlink:href='%23path-gj5om7ymvru-1' x='0' y='0' stroke='%23aabbcc' style='animation-play-state: running; animation-delay: 0s;'%3E%3CanimateMotion begin='-7.292756028033038s' dur='10s' keyPoints='1;0' keyTimes='0;1' repeatCount='indefinite' calcMode='linear' style='animation-play-state: running; animation-delay: 0s;'%3E%3Cmpath xlink:href='%23path6' style='animation-play-state: running; animation-delay: 0s;'%3E%3C/mpath%3E%3C/animateMotion%3E%3C/use%3E%3Cpath id='path7' d='M 614.0880469356493 486.4361729658121%0Ac 0 20.12192527951793 -4.923449802435238 5.779701941989193 -10.703151744424432 5.779701941989193%0AS 592.6817434468005 506.55809824533003 592.6817434468005 486.4361729658121%0As 4.923449802435238 -5.779701941989193 10.703151744424432 -5.779701941989193%0AS 614.0880469356493 466.31424768629415 614.0880469356493 486.4361729658121%0Az' fill='none' stroke='none' style='animation-play-state: running; animation-delay: 0s;'%3E%3C/path%3E%3Cuse xlink:href='%23path-gj5om7ymvru-3' x='0' y='0' stroke='%23aabbcc' style='animation-play-state: running; animation-delay: 0s;'%3E%3CanimateMotion begin='-2.813329436442553s' dur='10s' keyPoints='0;1' keyTimes='0;1' repeatCount='indefinite' calcMode='linear' style='animation-play-state: running; animation-delay: 0s;'%3E%3Cmpath xlink:href='%23path7' style='animation-play-state: running; animation-delay: 0s;'%3E%3C/mpath%3E%3C/animateMotion%3E%3C/use%3E%3Cpath id='path8' d='M 697.1910628244096 607.5868353666585%0Ac 0 26.11546540626274 -6.389954301532372 7.501250701798872 -13.891205003331244 7.501250701798872%0AS 669.4086528177471 633.7023007729213 669.4086528177471 607.5868353666585%0As 6.389954301532372 -7.501250701798872 13.891205003331244 -7.501250701798872%0AS 697.1910628244096 581.4713699603958 697.1910628244096 607.5868353666585%0Az' fill='none' stroke='none' style='animation-play-state: running; animation-delay: 0s;'%3E%3C/path%3E%3Cuse xlink:href='%23path-gj5om7ymvru-3' x='0' y='0' stroke='%23aabbcc' style='animation-play-state: running; animation-delay: 0s;'%3E%3CanimateMotion begin='-1.3973033234119803s' dur='10s' keyPoints='0;1' keyTimes='0;1' repeatCount='indefinite' calcMode='linear' style='animation-play-state: running; animation-delay: 0s;'%3E%3Cmpath xlink:href='%23path8' style='animation-play-state: running; animation-delay: 0s;'%3E%3C/mpath%3E%3C/animateMotion%3E%3C/use%3E%3Cpath id='path9' d='M 794.1599067543913 140.7123738137439%0Ac 0 31.721800367067885 -7.761717111091078 9.111580956498223 -16.8732980675893 9.111580956498223%0AS 760.4133106192127 172.4341741808118 760.4133106192127 140.7123738137439%0As 7.761717111091078 -9.111580956498223 16.8732980675893 -9.111580956498223%0AS 794.1599067543913 108.99057344667602 794.1599067543913 140.7123738137439%0Az' fill='none' stroke='none' style='animation-play-state: running; animation-delay: 0s;'%3E%3C/path%3E%3Cuse xlink:href='%23path-gj5om7ymvru-1' x='0' y='0' stroke='%23bbddff' style='animation-play-state: running; animation-delay: 0s;'%3E%3CanimateMotion begin='-9.567363214116174s' dur='10s' keyPoints='0;1' keyTimes='0;1' repeatCount='indefinite' calcMode='linear' style='animation-play-state: running; animation-delay: 0s;'%3E%3Cmpath xlink:href='%23path9' style='animation-play-state: running; animation-delay: 0s;'%3E%3C/mpath%3E%3C/animateMotion%3E%3C/use%3E%3Cpath id='path10' d='M 852.5919717216173 123.50662673586316%0Ac 0 28.173395139714 -6.893490300142786 8.092358178428489 -14.985848478571276 8.092358178428489%0AS 822.6202747644747 151.68002187557715 822.6202747644747 123.50662673586316%0As 6.893490300142786 -8.092358178428489 14.985848478571276 -8.092358178428489%0AS 852.5919717216173 95.33323159614916 852.5919717216173 123.50662673586316%0Az' fill='none' stroke='none' style='animation-play-state: running; animation-delay: 0s;'%3E%3C/path%3E%3Cuse xlink:href='%23path-gj5om7ymvru-1' x='0' y='0' stroke='%23ddeeff' style='animation-play-state: running; animation-delay: 0s;'%3E%3CanimateMotion begin='-0.6928411294403047s' dur='10s' keyPoints='1;0' keyTimes='0;1' repeatCount='indefinite' calcMode='linear' style='animation-play-state: running; animation-delay: 0s;'%3E%3Cmpath xlink:href='%23path10' style='animation-play-state: running; animation-delay: 0s;'%3E%3C/mpath%3E%3C/animateMotion%3E%3C/use%3E%3Cpath id='path11' d='M 933.0186038713542 467.2976378308478%0Ac 0 25.36615903188798 -6.206613380142803 7.286024402776335 -13.49263778291914 7.286024402776335%0AS 906.033328305516 492.6637968627358 906.033328305516 467.2976378308478%0As 6.206613380142803 -7.286024402776335 13.49263778291914 -7.286024402776335%0AS 933.0186038713542 441.9314787989598 933.0186038713542 467.2976378308478%0Az' fill='none' stroke='none' style='animation-play-state: running; animation-delay: 0s;'%3E%3C/path%3E%3Cuse xlink:href='%23path-gj5om7ymvru-2' x='0' y='0' stroke='%23ddeeff' style='animation-play-state: running; animation-delay: 0s;'%3E%3CanimateMotion begin='-7.7521425708685125s' dur='10s' keyPoints='1;0' keyTimes='0;1' repeatCount='indefinite' calcMode='linear' style='animation-play-state: running; animation-delay: 0s;'%3E%3Cmpath xlink:href='%23path11' style='animation-play-state: running; animation-delay: 0s;'%3E%3C/mpath%3E%3C/animateMotion%3E%3C/use%3E%3Cpath id='path12' d='M 1026.8193676821422 660.7566099878751%0Ac 0 58.83504533776115 -14.395808965622408 16.899427916165436 -31.295236881787844 16.899427916165436%0AS 964.2288939185664 719.5916553256362 964.2288939185664 660.7566099878751%0As 14.395808965622408 -16.899427916165436 31.295236881787844 -16.899427916165436%0AS 1026.8193676821422 601.921564650114 1026.8193676821422 660.7566099878751%0Az' fill='none' stroke='none' style='animation-play-state: running; animation-delay: 0s;'%3E%3C/path%3E%3Cuse xlink:href='%23path-gj5om7ymvru-2' x='0' y='0' stroke='%23ddeeff' style='animation-play-state: running; animation-delay: 0s;'%3E%3CanimateMotion begin='-1.195586117446874s' dur='10s' keyPoints='1;0' keyTimes='0;1' repeatCount='indefinite' calcMode='linear' style='animation-play-state: running; animation-delay: 0s;'%3E%3Cmpath xlink:href='%23path12' style='animation-play-state: running; animation-delay: 0s;'%3E%3C/mpath%3E%3C/animateMotion%3E%3C/use%3E%3Cpath id='path13' d='M 1125.3085029349993 74.8645243162634%0Ac 0 57.84779816549106 -14.154248487301002 16.615856919875093 -30.770105407176093 16.615856919875093%0AS 1063.7682921206472 132.71232248175446 1063.7682921206472 74.8645243162634%0As 14.154248487301002 -16.615856919875093 30.770105407176093 -16.615856919875093%0AS 1125.3085029349993 17.016726150772342 1125.3085029349993 74.8645243162634%0Az' fill='none' stroke='none' style='animation-play-state: running; animation-delay: 0s;'%3E%3C/path%3E%3Cuse xlink:href='%23path-gj5om7ymvru-1' x='0' y='0' stroke='%23ddeeff' style='animation-play-state: running; animation-delay: 0s;'%3E%3CanimateMotion begin='-0.4448111643194119s' dur='10s' keyPoints='1;0' keyTimes='0;1' repeatCount='indefinite' calcMode='linear' style='animation-play-state: running; animation-delay: 0s;'%3E%3Cmpath xlink:href='%23path13' style='animation-play-state: running; animation-delay: 0s;'%3E%3C/mpath%3E%3C/animateMotion%3E%3C/use%3E%3Cpath id='path14' d='M 1204.050942634505 465.80187254031847%0Ac 0 50.72200033783282 -12.410702210320796 14.569085203420066 -26.979787413740862 14.569085203420066%0AS 1150.091367807023 516.5238728781513 1150.091367807023 465.80187254031847%0As 12.410702210320796 -14.569085203420066 26.979787413740862 -14.569085203420066%0AS 1204.050942634505 415.07987220248566 1204.050942634505 465.80187254031847%0Az' fill='none' stroke='none' style='animation-play-state: running; animation-delay: 0s;'%3E%3C/path%3E%3Cuse xlink:href='%23path-gj5om7ymvru-2' x='0' y='0' stroke='%23bbddff' style='animation-play-state: running; animation-delay: 0s;'%3E%3CanimateMotion begin='-0.3204920484022722s' dur='10s' keyPoints='1;0' keyTimes='0;1' repeatCount='indefinite' calcMode='linear' style='animation-play-state: running; animation-delay: 0s;'%3E%3Cmpath xlink:href='%23path14' style='animation-play-state: running; animation-delay: 0s;'%3E%3C/mpath%3E%3C/animateMotion%3E%3C/use%3E%3Cpath id='path15' d='M 1278.646447029237 518.4018039839649%0Ac 0 50.201935085285406 -12.283452201718767 14.419704758539424 -26.70315696025819 14.419704758539424%0AS 1225.2401331087206 568.6037390692503 1225.2401331087206 518.4018039839649%0As 12.283452201718767 -14.419704758539424 26.70315696025819 -14.419704758539424%0AS 1278.646447029237 468.1998688986795 1278.646447029237 518.4018039839649%0Az' fill='none' stroke='none' style='animation-play-state: running; animation-delay: 0s;'%3E%3C/path%3E%3Cuse xlink:href='%23path-gj5om7ymvru-3' x='0' y='0' stroke='%23aabbcc' style='animation-play-state: running; animation-delay: 0s;'%3E%3CanimateMotion begin='-3.799595173787187s' dur='10s' keyPoints='0;1' keyTimes='0;1' repeatCount='indefinite' calcMode='linear' style='animation-play-state: running; animation-delay: 0s;'%3E%3Cmpath xlink:href='%23path15' style='animation-play-state: running; animation-delay: 0s;'%3E%3C/mpath%3E%3C/animateMotion%3E%3C/use%3E%3Cpath id='path16' d='M 1359.8428027870978 737.8635582441132%0Ac 0 54.56532798381564 -13.351090889657018 15.673019740032153 -29.02411062968917 15.673019740032153%0AS 1301.7945815277194 792.4288862279288 1301.7945815277194 737.8635582441132%0As 13.351090889657018 -15.673019740032153 29.02411062968917 -15.673019740032153%0AS 1359.8428027870978 683.2982302602975 1359.8428027870978 737.8635582441132%0Az' fill='none' stroke='none' style='animation-play-state: running; animation-delay: 0s;'%3E%3C/path%3E%3Cuse xlink:href='%23path-gj5om7ymvru-2' x='0' y='0' stroke='%23bbddff' style='animation-play-state: running; animation-delay: 0s;'%3E%3CanimateMotion begin='-0.4410794648391536s' dur='10s' keyPoints='0;1' keyTimes='0;1' repeatCount='indefinite' calcMode='linear' style='animation-play-state: running; animation-delay: 0s;'%3E%3Cmpath xlink:href='%23path16' style='animation-play-state: running; animation-delay: 0s;'%3E%3C/mpath%3E%3C/animateMotion%3E%3C/use%3E%3Cpath id='path17' d='M 1396.5083470509917 177.55880076351536%0Ac 0 57.91763701353153 -14.171336716076862 16.635917014525017 -30.80725373060188 16.635917014525017%0AS 1334.893839589788 235.4764377770469 1334.893839589788 177.55880076351536%0As 14.171336716076862 -16.635917014525017 30.80725373060188 -16.635917014525017%0AS 1396.5083470509917 119.64116374998383 1396.5083470509917 177.55880076351536%0Az' fill='none' stroke='none' style='animation-play-state: running; animation-delay: 0s;'%3E%3C/path%3E%3Cuse xlink:href='%23path-gj5om7ymvru-1' x='0' y='0' stroke='%23bbddff' style='animation-play-state: running; animation-delay: 0s;'%3E%3CanimateMotion begin='-4.9744928787335585s' dur='10s' keyPoints='0;1' keyTimes='0;1' repeatCount='indefinite' calcMode='linear' style='animation-play-state: running; animation-delay: 0s;'%3E%3Cmpath xlink:href='%23path17' style='animation-play-state: running; animation-delay: 0s;'%3E%3C/mpath%3E%3C/animateMotion%3E%3C/use%3E%3C/g%3E%3C/svg%3E");
 
 }
@@ -69,6 +70,7 @@ video {
 #roomButton:hover {
   background-color: white;
   color: black;
+  cursor: pointer;
 }
 
 #generateRoom {
@@ -86,6 +88,7 @@ video {
 #generateRoom:hover {
   background-color: white;
   color: black;
+  cursor: pointer;
 }
 
 #roomId {
@@ -97,6 +100,19 @@ video {
   background-color: transparent;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 20px;
+  margin-bottom:10px;
+}
+
+#roomCodeHolder{
+  background-color: #2c3e50;
+  border-radius: 20px;
+  padding:10px; 
+  cursor: text;
+  margin-top: 10px;
+}
+
+#roomCodeHolder:active{
+  background-color: #4e6173;
 }
 
 #roomTitle {
@@ -104,9 +120,19 @@ video {
   color: white;
   font-weight: 800;
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 30px;
+  font-size: 2em;
   z-index: 10;
+  
+  
 }
+
+@media only screen and (max-width: 600px) {
+  #roomTitle{
+    line-height: 2;
+  }
+  
+}
+
 
 #userImages {
   display: flex;
@@ -117,10 +143,55 @@ video {
 
 #userImages>img {
   max-width: 200px;
+  background-color: white;
+  border-radius: 100px;
 }
 
 #info {
   /* margin-bottom: 100px; */
   margin-top: 100px;
   color: white;
+}
+
+.dflex{
+  display: flex;
+}
+
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 140px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px;
+  position: absolute;
+  z-index: 1;
+  bottom: 150%;
+  left: 50%;
+  margin-left: -75px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.tooltip .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
 }
