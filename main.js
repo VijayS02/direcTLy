@@ -190,6 +190,7 @@ async function JoinRoom(roomID){
   }
 
   document.getElementById("numConnections").innerHTML = userId;
+  console.log("Active",activeCons);
 
 
   room.update({
@@ -270,6 +271,7 @@ function listenForConnections(change){
       // If it is relevant, join the connection
       JoinConn(pcs[ind], new_doc["code"]);
       activeCons++;
+      console.log("Active",activeCons);
       document.getElementById("numConnections").innerHTML = activeCons;
     }
   }
