@@ -266,9 +266,7 @@ async function JoinConn(conn, code_id) {
 function addUserImg() {
   const usersDiv = document.getElementById('userImages')
   const userImg = document.createElement('img')
-  console.log(window.location.pathname)
-  console.log(process.cwd())
-  userImg.src = 'https://direc-tl-y.vercel.app/user.png'
+  userImg.src = './public/user.png'
   usersDiv.appendChild(userImg)
 }
 
