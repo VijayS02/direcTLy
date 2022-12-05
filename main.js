@@ -3,6 +3,12 @@ import './style.css';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 
+const maxConns = 5;
+
+let userId = null;
+let roomId = null;
+
+
 const firebaseConfig = {
   apiKey: "AIzaSyCIq8PGJA0ywv8iWjRWmMETpF3JuPNJ_zU",
   authDomain: "liquidxdav.firebaseapp.com",
@@ -28,11 +34,14 @@ const servers = {
 };
 
 // Global State
-const pc = new RTCPeerConnection(servers);
-const pc2 = new RTCPeerConnection(servers);
+const pcs = [];
+for(let i =0;i<maxConns;i++){
+  pcs.push(new RTCPeerConnection(servers));
+}
+
 let localStream = null;
-let remoteStream = null;
-let remoteStream2 = null;
+
+let remoteStreams = [];
 
 // HTML elements
 const webcamButton = document.getElementById('webcamButton');
@@ -41,43 +50,44 @@ const callButton = document.getElementById('callButton');
 const callInput = document.getElementById('callInput');
 const callInput2 = document.getElementById('callInput2');
 
-const answerButton = document.getElementById('answerButton');
-const answerButton2 = document.getElementById('answerButton2');
-
-const remoteVideo = document.getElementById('remoteVideo');
-const remoteVideo2 = document.getElementById('remoteVideo2');
+const roomButton = document.getElementById('roomButton');
+const roomInput = document.getElementById('roomId');
 
 const hangupButton = document.getElementById('hangupButton');
-
+const generateRoom = document.getElementById('generateRoom');
 // 1. Setup media sources
 
 webcamButton.onclick = async () => {
   localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-  remoteStream = new MediaStream();
-  remoteStream2 = new MediaStream();
+  
 
   // Push tracks from local stream to peer connection
   localStream.getTracks().forEach((track) => {
-    pc.addTrack(track, localStream);
-    pc2.addTrack(track, localStream);
+    for(let i =0;i<maxConns;i++){
+      pcs[i].addTrack(track, localStream);
+    }
+    
+    // pc2.addTrack(track, localStream);
   });
 
   // Pull tracks from remote stream, add to video stream
-  pc.ontrack = (event) => {
-    event.streams[0].getTracks().forEach((track) => {
-      remoteStream.addTrack(track);
-    });
-  };
 
-  pc2.ontrack = (event) => {
-    event.streams[0].getTracks().forEach((track) => {
-      remoteStream2.addTrack(track);
-    });
-  };
+  for(let i =0;i<maxConns;i++){
+    remoteStreams[i] = new MediaStream();
+    pcs[i].ontrack = (event) => {
+      event.streams[0].getTracks().forEach((track) => {
+        remoteStreams[i].addTrack(track);
+      });
+    };
+  }
 
   webcamVideo.srcObject = localStream;
-  remoteVideo.srcObject = remoteStream;
-  remoteVideo2.srcObject = remoteStream2;
+  for(let i =0;i<maxConns;i++){
+    let str = "remoteVideo"+ (i+1).toString();
+    console.log(str);
+    let remVid = document.getElementById(str);
+    remVid.srcObject = remoteStreams[i];
+  }
 
   callButton.disabled = false;
 
@@ -89,21 +99,36 @@ webcamButton.onclick = async () => {
 
 // 2. Create an offer
 callButton.onclick = async () => {
+  let res = await CreateConn(pc);
+  console.log("ID IS: ",res);
+};
+
+// 3. Answer the call with the unique ID
+answerButton.onclick = async () => {
+  JoinConn(pcs[0], callInput.value);
+};
+
+
+answerButton2.onclick = async () => {
+  JoinConn(pcs[1], callInput2.value);
+};
+
+async function CreateConn(con){
   // Reference Firestore collections for signaling
   const callDoc = firestore.collection('calls').doc();
   const offerCandidates = callDoc.collection('offerCandidates');
   const answerCandidates = callDoc.collection('answerCandidates');
 
-  callInput.value = callDoc.id;
+  // callInput.value = callDoc.id;
 
   // Get candidates for caller, save to db
-  pc.onicecandidate = (event) => {
+  con.onicecandidate = (event) => {
     event.candidate && offerCandidates.add(event.candidate.toJSON());
   };
 
   // Create offer
-  const offerDescription = await pc.createOffer();
-  await pc.setLocalDescription(offerDescription);
+  const offerDescription = await con.createOffer();
+  await con.setLocalDescription(offerDescription);
 
   const offer = {
     sdp: offerDescription.sdp,
@@ -115,9 +140,9 @@ callButton.onclick = async () => {
   // Listen for remote answer
   callDoc.onSnapshot((snapshot) => {
     const data = snapshot.data();
-    if (!pc.currentRemoteDescription && data?.answer) {
+    if (!con.currentRemoteDescription && data?.answer) {
       const answerDescription = new RTCSessionDescription(data.answer);
-      pc.setRemoteDescription(answerDescription);
+      con.setRemoteDescription(answerDescription);
     }
   });
 
@@ -126,32 +151,83 @@ callButton.onclick = async () => {
     snapshot.docChanges().forEach((change) => {
       if (change.type === 'added') {
         const candidate = new RTCIceCandidate(change.doc.data());
-        pc.addIceCandidate(candidate);
+        con.addIceCandidate(candidate);
       }
     });
   });
 
-  hangupButton.disabled = false;
-};
 
-// 3. Answer the call with the unique ID
-answerButton.onclick = async () => {
-  const callId = callInput.value;
-  const callDoc = firestore.collection('calls').doc(callId);
+  return callDoc.id;
+}
+
+
+async function CreateRoom(){
+  userId = 0;
+  const newRoom = await firestore.collection('rooms').add({
+    users: 1
+  });
+  roomId = newRoom.id;
+  console.log(roomId);
+
+
+  firestore.collection('connections').onSnapshot((snapshot)=>{
+    snapshot.docChanges().forEach((changes)=>{
+      listenForConnections(changes);
+    })
+  })
+
+  return roomId;
+}
+
+
+async function JoinRoom(roomID){
+  roomId = roomID;
+  const room = await firestore.collection('rooms').doc(roomID);
+  let roomRef = await room.get();
+  userId = roomRef.data()['users'];
+  
+  for(let i = 0; i< userId; i++){
+    let connId = await CreateConn(pcs[i]);
+    CreateConnEntry(userId.toString() + ":" + roomID, i.toString()+ ":" + roomID, connId);
+  }
+
+  room.update({
+    users: userId + 1
+  })
+
+  firestore.collection('connections').onSnapshot((snapshot)=>{
+    snapshot.docChanges().forEach((changes)=>{
+      listenForConnections(changes);
+    })
+  })
+}
+
+async function CreateConnEntry(user1, user2, code){
+  firestore.collection('connections').add({
+    user1: user1,
+    user2: user2,
+    code: code
+  }).then((docref)=>{
+    console.log("New connection entry inserted with id: ", docref.id);
+  })
+}
+
+async function JoinConn(conn, code_id){
+  const callDoc = firestore.collection('calls').doc(code_id);
   const answerCandidates = callDoc.collection('answerCandidates');
   const offerCandidates = callDoc.collection('offerCandidates');
 
-  pc.onicecandidate = (event) => {
+  conn.onicecandidate = (event) => {
     event.candidate && answerCandidates.add(event.candidate.toJSON());
   };
 
   const callData = (await callDoc.get()).data();
 
   const offerDescription = callData.offer;
-  await pc.setRemoteDescription(new RTCSessionDescription(offerDescription));
+  await conn.setRemoteDescription(new RTCSessionDescription(offerDescription));
 
-  const answerDescription = await pc.createAnswer();
-  await pc.setLocalDescription(answerDescription);
+  const answerDescription = await conn.createAnswer();
+  await conn.setLocalDescription(answerDescription);
 
   const answer = {
     type: answerDescription.type,
@@ -162,48 +238,36 @@ answerButton.onclick = async () => {
 
   offerCandidates.onSnapshot((snapshot) => {
     snapshot.docChanges().forEach((change) => {
-      console.log(change);
+      // console.log(change);
       if (change.type === 'added') {
         let data = change.doc.data();
-        pc.addIceCandidate(new RTCIceCandidate(data));
+        conn.addIceCandidate(new RTCIceCandidate(data));
       }
     });
   });
+}
+
+
+
+function listenForConnections(change){
+  if(change.type == "added"){
+    let new_doc = change.doc.data();
+    if(new_doc["user2"] == userId.toString() + ":" + roomId){
+      console.log("New connection required!", new_doc);
+      let ind = parseInt(new_doc["user1"].split(":")[0]);
+      JoinConn(pcs[ind], new_doc["code"]);
+    }
+  }
+  
+}
+
+
+roomButton.onclick = async () => {
+  const roomId = roomInput.value;
+  JoinRoom(roomId);
+  // const rooms = firestore.collection('rooms');
 };
 
-
-answerButton2.onclick = async () => {
-  const callId = callInput2.value;
-  const callDoc = firestore.collection('calls').doc(callId);
-  const answerCandidates = callDoc.collection('answerCandidates');
-  const offerCandidates = callDoc.collection('offerCandidates');
-
-  pc2.onicecandidate = (event) => {
-    event.candidate && answerCandidates.add(event.candidate.toJSON());
-  };
-
-  const callData = (await callDoc.get()).data();
-
-  const offerDescription = callData.offer;
-  await pc2.setRemoteDescription(new RTCSessionDescription(offerDescription));
-
-  const answerDescription = await pc2.createAnswer();
-  await pc2.setLocalDescription(answerDescription);
-
-  const answer = {
-    type: answerDescription.type,
-    sdp: answerDescription.sdp,
-  };
-
-  await callDoc.update({ answer });
-
-  offerCandidates.onSnapshot((snapshot) => {
-    snapshot.docChanges().forEach((change) => {
-      console.log(change);
-      if (change.type === 'added') {
-        let data = change.doc.data();
-        pc2.addIceCandidate(new RTCIceCandidate(data));
-      }
-    });
-  });
-};
+generateRoom.onclick = async () => {
+    CreateRoom();
+}

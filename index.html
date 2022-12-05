@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="main.js"></script>
     <title>WebRTC Demo</title>
   </head>
   <body>
@@ -15,19 +16,39 @@
       </span>
       <span>
         <h3>Remote Stream</h3>
-        <video id="remoteVideo" autoplay playsinline></video>
+        <video id="remoteVideo1" autoplay playsinline></video>
       </span>
       <span>
         <h3>Remote Stream</h3>
         <video id="remoteVideo2" autoplay playsinline></video>
       </span>
-
+      <span>
+        <h3>Remote Stream</h3>
+        <video id="remoteVideo3" autoplay playsinline></video>
+      </span>
+      <span>
+        <h3>Remote Stream</h3>
+        <video id="remoteVideo4" autoplay playsinline></video>
+      </span>
+      <span>
+        <h3>Remote Stream</h3>
+        <video id="remoteVideo5" autoplay playsinline></video>
+      </span>
 
     </div>
 
     <button id="webcamButton">Start webcam</button>
     <h2>2. Create a new Call</h2>
+    
     <button id="callButton" disabled>Create Call (offer)</button>
+    <h2>ALLAH. Join a room</h2>
+    <input id="roomId"/>
+    <button id="roomButton">Join Room</button>
+
+    <h3>Generate a room</h3>
+    <p>Room ID: <span id="roomText"></span></p>
+    <button id="generateRoom">Create a room</button>
+    
 
     <h2>3. Join a Call</h2>
     <p>Answer the call from a different browser window or device</p>
