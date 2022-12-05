@@ -3,14 +3,29 @@ import './style.css';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 
+// Max number of allowable connections
+// Note each new connection does not yet automatically make new audio elements (TODO)
+// This means that index.html must be motified accordingly
 const maxConns = 5;
-
+// UserID for the given session
 let userId = null;
+// RoomID for the given session
 let roomId = null;
-
 let activeCons = 0;
 
+// Firebase Globals
+const firestore = firebase.firestore();
 
+// Firebase Constants
+const servers = {
+  iceServers: [
+    {
+      urls: ['stun:stun1.l.google.com:19302', 'stun:stun2.l.google.com:19302'],
+    },
+  ],
+  iceCandidatePoolSize: 10,
+};
+// 
 const firebaseConfig = {
   apiKey: "AIzaSyCIq8PGJA0ywv8iWjRWmMETpF3JuPNJ_zU",
   authDomain: "liquidxdav.firebaseapp.com",
@@ -24,25 +39,19 @@ const firebaseConfig = {
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
 }
-const firestore = firebase.firestore();
 
-const servers = {
-  iceServers: [
-    {
-      urls: ['stun:stun1.l.google.com:19302', 'stun:stun2.l.google.com:19302'],
-    },
-  ],
-  iceCandidatePoolSize: 10,
-};
 
 // Global State
+// These are the active connections - One for each peer 
 const pcs = [];
 for(let i =0;i<maxConns;i++){
   pcs.push(new RTCPeerConnection(servers));
 }
 
+// Unimportant
 let localStream = null;
 
+// Streams that take input from the connections
 let remoteStreams = [];
 
 // HTML elements
@@ -50,9 +59,12 @@ const roomButton = document.getElementById('roomButton');
 const roomInput = document.getElementById('roomId');
 
 const generateRoom = document.getElementById('generateRoom');
-// 1. Setup media sources
 
 let setupWebcam = async () => {
+  // Gets webcam permission and adds stream to all connections
+
+
+  // Loads the webcam into a stream of data
   localStream = await navigator.mediaDevices.getUserMedia({ video: false, audio: true });
   
 
@@ -66,7 +78,6 @@ let setupWebcam = async () => {
   });
 
   // Pull tracks from remote stream, add to video stream
-
   for(let i =0;i<maxConns;i++){
     remoteStreams[i] = new MediaStream();
     pcs[i].ontrack = (event) => {
@@ -87,12 +98,13 @@ let setupWebcam = async () => {
 
 
 async function CreateConn(con){
+  // Create a connection by initializing required fields in DB and generating connection code
+  // Mostly code for creating a new webRTC connection
+
   // Reference Firestore collections for signaling
   const callDoc = firestore.collection('calls').doc();
   const offerCandidates = callDoc.collection('offerCandidates');
   const answerCandidates = callDoc.collection('answerCandidates');
-
-  // callInput.value = callDoc.id;
 
   // Get candidates for caller, save to db
   con.onicecandidate = (event) => {
@@ -103,6 +115,7 @@ async function CreateConn(con){
   const offerDescription = await con.createOffer();
   await con.setLocalDescription(offerDescription);
 
+  // webRTC offer
   const offer = {
     sdp: offerDescription.sdp,
     type: offerDescription.type,
@@ -115,7 +128,9 @@ async function CreateConn(con){
     const data = snapshot.data();
     if (!con.currentRemoteDescription && data?.answer) {
       const answerDescription = new RTCSessionDescription(data.answer);
+      // Update remote information for connection establishment
       con.setRemoteDescription(answerDescription);
+      
     }
   });
 
@@ -125,6 +140,7 @@ async function CreateConn(con){
       if (change.type === 'added') {
         const candidate = new RTCIceCandidate(change.doc.data());
         con.addIceCandidate(candidate);
+        activeCons++;
       }
     });
   });
@@ -135,6 +151,7 @@ async function CreateConn(con){
 
 
 async function CreateRoom(){
+  // Creates a room in the firebase DB and sets up snapshot listener
   setupWebcam();
   userId = 0;
   const newRoom = await firestore.collection('rooms').add({
@@ -144,7 +161,7 @@ async function CreateRoom(){
   console.log(roomId);
   document.getElementById("roomText").innerHTML = roomId;
 
-
+  // On new entry in connections db, check if it is relevant to roomID and user id
   firestore.collection('connections').onSnapshot((snapshot)=>{
     snapshot.docChanges().forEach((changes)=>{
       listenForConnections(changes);
@@ -158,21 +175,32 @@ async function CreateRoom(){
 
 
 async function JoinRoom(roomID){
+  // Join a room with a given room id
+
   setupWebcam();
+
+  // Set the session's room id
   roomId = roomID;
+
+  // Get the room information from firestore
   const room = await firestore.collection('rooms').doc(roomID);
   let roomRef = await room.get();
+  // userid is 0,1,2,3... depending on when you joined.
   userId = roomRef.data()['users'];
   
   for(let i = 0; i< userId; i++){
     let connId = await CreateConn(pcs[i]);
+    // User's ids are "<UserIndex>:<RoomID>" 
     CreateConnEntry(userId.toString() + ":" + roomID, i.toString()+ ":" + roomID, connId);
   }
 
   room.update({
+    // Increment the users
     users: userId + 1
   })
 
+  // Listen for changes on the connections table so as to be able to join when someone 
+  // enters the room.
   firestore.collection('connections').onSnapshot((snapshot)=>{
     snapshot.docChanges().forEach((changes)=>{
       listenForConnections(changes);
@@ -184,6 +212,7 @@ async function JoinRoom(roomID){
 }
 
 async function CreateConnEntry(user1, user2, code){
+  // Insert connection information into firebase db
   firestore.collection('connections').add({
     user1: user1,
     user2: user2,
@@ -194,6 +223,7 @@ async function CreateConnEntry(user1, user2, code){
 }
 
 async function JoinConn(conn, code_id){
+  // Called when a user joins the room
   const callDoc = firestore.collection('calls').doc(code_id);
   const answerCandidates = callDoc.collection('answerCandidates');
   const offerCandidates = callDoc.collection('offerCandidates');
@@ -222,6 +252,7 @@ async function JoinConn(conn, code_id){
       // console.log(change);
       if (change.type === 'added') {
         let data = change.doc.data();
+        // Setup the connection.
         conn.addIceCandidate(new RTCIceCandidate(data));
       }
     });
@@ -231,11 +262,13 @@ async function JoinConn(conn, code_id){
 
 
 function listenForConnections(change){
+  // Check if new event is relevant to room and user
   if(change.type == "added"){
     let new_doc = change.doc.data();
     if(new_doc["user2"] == userId.toString() + ":" + roomId){
       console.log("New connection required!", new_doc);
       let ind = parseInt(new_doc["user1"].split(":")[0]);
+      // If it is relevant, join the connection
       JoinConn(pcs[ind], new_doc["code"]);
       activeCons++;
       document.getElementById("numConnections").innerHTML = activeCons;
