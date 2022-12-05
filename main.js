@@ -128,7 +128,6 @@ async function CreateConn(con){
       const answerDescription = new RTCSessionDescription(data.answer);
       // Update remote information for connection establishment
       con.setRemoteDescription(answerDescription);
-      
     }
   });
 
@@ -138,7 +137,6 @@ async function CreateConn(con){
       if (change.type === 'added') {
         const candidate = new RTCIceCandidate(change.doc.data());
         con.addIceCandidate(candidate);
-        activeCons++;
       }
     });
   });
@@ -153,7 +151,7 @@ async function CreateRoom(){
   setupWebcam();
   userId = 0;
   const newRoom = await firestore.collection('rooms').add({
-    users: 1
+    users: 0
   });
   roomId = newRoom.id;
   console.log(roomId);
@@ -174,7 +172,6 @@ async function CreateRoom(){
 
 async function JoinRoom(roomID){
   // Join a room with a given room id
-
   setupWebcam();
 
   // Set the session's room id
@@ -186,11 +183,14 @@ async function JoinRoom(roomID){
   // userid is 0,1,2,3... depending on when you joined.
   userId = roomRef.data()['users'];
   
-  for(let i = 0; i< userId; i++){
+  for(let i = 0; i < userId; i++){
     let connId = await CreateConn(pcs[i]);
     // User's ids are "<UserIndex>:<RoomID>" 
     CreateConnEntry(userId.toString() + ":" + roomID, i.toString()+ ":" + roomID, connId);
   }
+
+  document.getElementById("numConnections").innerHTML = userId;
+
 
   room.update({
     // Increment the users
@@ -211,6 +211,7 @@ async function JoinRoom(roomID){
 
 async function CreateConnEntry(user1, user2, code){
   // Insert connection information into firebase db
+  console.log(user1,user2,code);
   firestore.collection('connections').add({
     user1: user1,
     user2: user2,
