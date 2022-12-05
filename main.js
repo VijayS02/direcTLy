@@ -190,6 +190,7 @@ async function JoinRoom(roomID){
   }
 
   document.getElementById("numConnections").innerHTML = userId;
+  activeCons = userId;
   console.log("Active",activeCons);
 
 
