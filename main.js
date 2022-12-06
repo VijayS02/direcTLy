@@ -207,6 +207,7 @@ async function JoinRoom(roomID) {
       let connId = await CreateConn(pcs[i]);
       // User's ids are "<UserIndex>:<RoomID>" 
       await CreateConnEntry(userId.toString() + ":" + roomID, i.toString() + ":" + roomID, connId);
+      addUserImg();
     }
 
     document.getElementById("numConnections").innerHTML = userId;
@@ -284,7 +285,7 @@ async function JoinConn(conn, code_id) {
 }
 
 function addUserImg() {
-  new Audio("bell.wav").play();
+  new Audio("join.wav").play();
   for(let i =0;i<maxConns;i++){
     // (new RTCPeerConnection()).
     console.log(pcs[i].connectionState)
@@ -335,6 +336,10 @@ function renderRoom() {
   helpMsg.innerHTML = "(share this ID with your teammates)"
   helpMsg.style.color = "white"
   body.appendChild(helpMsg)
+  const disconectMsg = document.createElement('p');
+  disconectMsg.innerHTML = "";
+  disconectMsg.setAttribute('id', 'disconectMsg');
+  body.appendChild(disconectMsg);
   const usersDiv = document.createElement('div')
   body.appendChild(usersDiv)
   usersDiv.setAttribute('id', 'userImages')
@@ -346,6 +351,12 @@ function renderRoom() {
 
 
 }
+
+function RemoveUserImg(){
+  const usersDiv = document.getElementById('userImages');
+  usersDiv.removeChild(usersDiv.lastChild);
+}
+
 
 roomButton.onclick = async () => {
   const roomValue = roomInput.value;
@@ -372,6 +383,13 @@ generateRoom.onclick = async () => {
 const interval = setInterval(function() {
   for(let i =0;i<maxConns;i++){
     // (new RTCPeerConnection()).
-    console.log(pcs[i].connectionState)
+    console.log(pcs[i].connectionState);
+    if(pcs[i].connectionState == "failed" || pcs[i].connectionState == "disconnected"){
+      // alert("Lost connection to peer '" + i + "'. If this was not intentional, please create a new lobby and try again.");
+      new Audio("dc.wav").play();
+      pcs[i].close();
+      RemoveUserImg();
+      document.getElementById("disconectMsg").innerHTML = "Lost connection to peer '" + i + "'. If this was not intentional, please create a new lobby.";
+    }
   }
-}, 5000);
+}, 2500);

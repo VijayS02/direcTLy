@@ -55,6 +55,10 @@ video {
   font-size: 30px;
 }
 
+#disconectMsg{
+  color:rgb(207, 172, 76);
+}
+
 #roomButton {
   text-decoration: none;
   color: white;
