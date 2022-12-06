@@ -1,5 +1,6 @@
 import firebase from 'firebase/app';
 import 'firebase/firestore';
+import './style.css';
 
 // Max number of allowable connections
 // Note each new connection does not yet automatically make new audio elements (TODO)
