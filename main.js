@@ -25,6 +25,7 @@ const servers = {
   ],
   iceCandidatePoolSize: 10,
 };
+
 const firebaseConfig = {
   apiKey: "AIzaSyCIq8PGJA0ywv8iWjRWmMETpF3JuPNJ_zU",
   authDomain: "liquidxdav.firebaseapp.com",
@@ -34,9 +35,12 @@ const firebaseConfig = {
   appId: "1:25180788907:web:3c37dd480e09ce30843fee",
   measurementId: "G-KC525G6ZQJ"
 };
+
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
 }
+
+
 const firestore = firebase.firestore();
 
 
@@ -50,22 +54,23 @@ for (let i = 0; i < maxConns; i++) {
 
 // Unimportant
 let localStream = null;
-
 // Streams that take input from the connections
 let remoteStreams = [];
 
 // HTML elements
 const roomButton = document.getElementById('roomButton');
 const roomInput = document.getElementById('roomId');
-
 const generateRoom = document.getElementById('generateRoom');
 
+// -------- Setup Media and Initial webRTC objects --------
+// This is called when the user wants to join a room or creates a room
+// It sets up the audio streams and establishes connections for each peer
+// these connections will be updated later on once a handshake is performed
 let setupWebcam = async () => {
   if(webcamInitialized){
     return;
   }
   // Gets webcam permission and adds stream to all connections
-
 
   // Loads the webcam into a stream of data
   console.log(navigator.mediaDevices);
@@ -102,10 +107,10 @@ let setupWebcam = async () => {
 };
 
 
-async function CreateConn(con) {
+// -------- Create Connection --------
   // Create a connection by initializing required fields in DB and generating connection code
   // Mostly code for creating a new webRTC connection
-
+async function CreateConn(con) {
   // Reference Firestore collections for signaling
   const callDoc = await firestore.collection('calls').doc();
   const offerCandidates = await callDoc.collection('offerCandidates');
@@ -152,9 +157,9 @@ async function CreateConn(con) {
   return callDoc.id;
 }
 
-
+// -------- Create Room --------
+// Creates a room in the firebase DB and sets up snapshot listener
 async function CreateRoom() {
-  // Creates a room in the firebase DB and sets up snapshot listener
   await setupWebcam();
   isHost = true;
   userId = 0;
@@ -178,9 +183,9 @@ async function CreateRoom() {
   return roomId;
 }
 
-
+// -------- Join Room --------
+// Join a room with a given room id
 async function JoinRoom(roomID) {
-  // Join a room with a given room id
   document.getElementById("roomError").innerHTML = "";
   await setupWebcam();
   
@@ -207,7 +212,6 @@ async function JoinRoom(roomID) {
       let connId = await CreateConn(pcs[i]);
       // User's ids are "<UserIndex>:<RoomID>" 
       await CreateConnEntry(userId.toString() + ":" + roomID, i.toString() + ":" + roomID, connId);
-      addUserImg();
     }
 
     document.getElementById("numConnections").innerHTML = userId;
@@ -233,8 +237,10 @@ async function JoinRoom(roomID) {
   }
 }
 
+
+// -------- Create connection entry --------
+// Insert connection information into firebase db
 async function CreateConnEntry(user1, user2, code) {
-  // Insert connection information into firebase db
   console.log(user1, user2, code);
   firestore.collection('connections').add({
     user1: user1,
@@ -245,8 +251,10 @@ async function CreateConnEntry(user1, user2, code) {
   })
 }
 
+
+// -------- Join connection --------
+// Called when a user joins the room
 async function JoinConn(conn, code_id) {
-  // Called when a user joins the room
   const callDoc = await firestore.collection('calls').doc(code_id);
   const answerCandidates = await callDoc.collection('answerCandidates');
   const offerCandidates = await callDoc.collection('offerCandidates');
@@ -284,23 +292,23 @@ async function JoinConn(conn, code_id) {
   });
 }
 
+// -------- Add user icon --------
 function addUserImg() {
   new Audio("join.wav").play();
   for(let i =0;i<maxConns;i++){
     // (new RTCPeerConnection()).
-    console.log(pcs[i].connectionState)
+    console.log(pcs[i].connectionState);
   }
-  const usersDiv = document.getElementById('userImages')
-  const userImg = document.createElement('img')
-  userImg.src = 'https://i.postimg.cc/rF2FBYnT/user.png'
-  usersDiv.appendChild(userImg)
+  const usersDiv = document.getElementById('userImages');
+  const userImg = document.createElement('img');
+  userImg.src = 'https://i.postimg.cc/rF2FBYnT/user.png';
+  usersDiv.appendChild(userImg);
 }
 
+// -------- Listen for new connections --------
 async function listenForConnections(change) {
   // Check if new event is relevant to room and user
-  // console.log(8248)
   if (change.type == "added") {
-    // console.log(69)
     const lobbyRoomDoc = await firestore.collection('rooms').doc(roomId);
     const lobbyRoom = await lobbyRoomDoc.get();
     const numUsers = await lobbyRoom.data()['users'];
@@ -323,7 +331,8 @@ async function listenForConnections(change) {
 
 }
 
-
+// -------- Render Room Page --------
+// Replace landing page with room information
 function renderRoom() {
   const landing = document.getElementById("landing")
   landing.remove()
@@ -352,6 +361,7 @@ function renderRoom() {
 
 }
 
+// -------- Remove user icon --------
 function RemoveUserImg(){
   const usersDiv = document.getElementById('userImages');
   usersDiv.removeChild(usersDiv.lastChild);
@@ -362,13 +372,13 @@ roomButton.onclick = async () => {
   const roomValue = roomInput.value;
   await JoinRoom(roomValue);
   if(roomId){
-    renderRoom()
-    const lobbyRoomDoc = await firestore.collection('rooms').doc(roomId)
-    const lobbyRoom = await lobbyRoomDoc.get()
-    const numUsers = await lobbyRoom.data()['users']
+    renderRoom();
+    const lobbyRoomDoc = await firestore.collection('rooms').doc(roomId);
+    const lobbyRoom = await lobbyRoomDoc.get();
+    const numUsers = await lobbyRoom.data()['users'];
     console.log(numUsers)
     for (let i = 0; i < numUsers; i++) {
-      addUserImg()
+      addUserImg();
     }
   }
   // const rooms = firestore.collection('rooms');
@@ -380,9 +390,10 @@ generateRoom.onclick = async () => {
   addUserImg()
 }
 
+
+// Every so often check the status of the connections
 const interval = setInterval(function() {
   for(let i =0;i<maxConns;i++){
-    // (new RTCPeerConnection()).
     console.log(pcs[i].connectionState);
     if(pcs[i].connectionState == "failed" || pcs[i].connectionState == "disconnected"){
       // alert("Lost connection to peer '" + i + "'. If this was not intentional, please create a new lobby and try again.");
