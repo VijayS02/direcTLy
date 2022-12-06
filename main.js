@@ -1,5 +1,3 @@
-import './style.css';
-
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 
@@ -69,7 +67,8 @@ let setupWebcam = async () => {
 
 
   // Loads the webcam into a stream of data
-  localStream = await navigator.mediaDevices.getUserMedia({ video: false, audio: true });
+  console.log(navigator.mediaDevices);
+  localStream = await navigator.mediaDevices.getUserMedia({video: false, audio: true });
 
 
   // Push tracks from local stream to peer connection
@@ -157,7 +156,7 @@ async function CreateRoom() {
   // Creates a room in the firebase DB and sets up snapshot listener
   await setupWebcam();
   isHost = true;
-  userId = 1;
+  userId = 0;
   const newRoom = await firestore.collection('rooms').add({
     "users": 1
   });
@@ -257,9 +256,11 @@ async function JoinConn(conn, code_id) {
   const callData = (await callDoc.get()).data();
 
   const offerDescription = callData.offer;
+  console.log(offerDescription);
   await conn.setRemoteDescription(new RTCSessionDescription(offerDescription));
 
   const answerDescription = await conn.createAnswer();
+  console.log(answerDescription);
   await conn.setLocalDescription(answerDescription);
 
   const answer = {
@@ -283,6 +284,10 @@ async function JoinConn(conn, code_id) {
 
 function addUserImg() {
   new Audio("bell.wav").play();
+  for(let i =0;i<maxConns;i++){
+    // (new RTCPeerConnection()).
+    console.log(pcs[i].connectionState)
+  }
   const usersDiv = document.getElementById('userImages')
   const userImg = document.createElement('img')
   userImg.src = 'https://i.postimg.cc/rF2FBYnT/user.png'
@@ -294,16 +299,14 @@ async function listenForConnections(change) {
   // console.log(8248)
   if (change.type == "added") {
     // console.log(69)
-    const lobbyRoomDoc = await firestore.collection('rooms').doc(roomId)
-    const lobbyRoom = await lobbyRoomDoc.get()
-    const numUsers = await lobbyRoom.data()['users']
-    console.log(numUsers)
-    if (isHost && numUsers === 2) {
-      addUserImg()
-      isHost = false
-    }
+    const lobbyRoomDoc = await firestore.collection('rooms').doc(roomId);
+    const lobbyRoom = await lobbyRoomDoc.get();
+    const numUsers = await lobbyRoom.data()['users'];
+    console.log(numUsers);
     let new_doc = change.doc.data();
-    if (new_doc["user2"] == userId.toString() + ":" + roomId) {
+    console.log(new_doc);
+    console.log(userId.toString() + ":" + roomId);
+    if (new_doc["user2"].localeCompare(userId.toString() + ":" + roomId) == 0) {
       console.log("New connection required!", new_doc);
       let ind = parseInt(new_doc["user1"].split(":")[0]);
       // If it is relevant, join the connection
@@ -364,3 +367,10 @@ generateRoom.onclick = async () => {
   renderRoom()
   addUserImg()
 }
+
+const interval = setInterval(function() {
+  for(let i =0;i<maxConns;i++){
+    // (new RTCPeerConnection()).
+    console.log(pcs[i].connectionState)
+  }
+}, 5000);
