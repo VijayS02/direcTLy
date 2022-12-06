@@ -159,7 +159,7 @@ async function CreateRoom() {
   isHost = true;
   userId = 1;
   const newRoom = await firestore.collection('rooms').add({
-    users: 1
+    "users": 1
   });
   roomId = newRoom.id;
   console.log(roomId);
@@ -199,9 +199,9 @@ async function JoinRoom(roomID) {
     return;
   }else{
     roomId = roomID;
-    userId = roomRef.data()['users'];
+    console.log(roomRef.data());
+    userId = await roomRef.data()['users'];
     console.log(userId);
-    userId = userId['users'];
 
     for (let i = 0; i < userId; i++) {
       let connId = await CreateConn(pcs[i]);
