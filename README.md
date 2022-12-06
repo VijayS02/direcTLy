@@ -1,3 +1,6 @@
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+
 # DirecTLy
 [DirecTLy](https://direc-tl-y.vercel.app) is a web-based peer-to-peer disposable audio lobby application hosted on Vercel using vanilia Javascript.
 
